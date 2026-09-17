@@ -1,98 +1,86 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  NavLink
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { useContext } from "react";
 
-import Home from "./Home";
-import About from "./About";
-import Dashboard from "./Dashboard";
-import UserProfile from "./UserProfile";
-import NotFound from "./NotFound";
-import "./App.css";
+import Home from "./Home.jsx";
+import About from "./About.jsx";
+import Dashboard from "./Dashboard.jsx";
+import UserProfile from "./UserProfile.jsx";
+import NotFound from "./NotFound.jsx";
+
+import { ThemeContext } from "./ThemeContext.jsx";
 
 function App() {
+  const { darkMode, toggleTheme } = useContext(ThemeContext);
+
   return (
-    <BrowserRouter>
-      <div className="app">
+    <div className={darkMode ? "app dark" : "app light"}>
 
-        <h1>React Router v6 Example</h1>
+      <h1>React Router and Screen Updating</h1>
 
-        {/* Navigation Bar */}
-        <nav className="navbar">
+      <nav className="navbar">
 
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "active" : ""
-            }
-          >
-            Home
-          </NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "active" : ""
+          }
+        >
+          Home
+        </NavLink>
 
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? "active" : ""
-            }
-          >
-            About
-          </NavLink>
+        <NavLink
+          to="/about"
+          className={({ isActive }) =>
+            isActive ? "active" : ""
+          }
+        >
+          About
+        </NavLink>
 
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) =>
-              isActive ? "active" : ""
-            }
-          >
-            Dashboard
-          </NavLink>
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            isActive ? "active" : ""
+          }
+        >
+          Dashboard
+        </NavLink>
 
-          <NavLink
-            to="/user/101"
-            className={({ isActive }) =>
-              isActive ? "active" : ""
-            }
-          >
-            User Profile
-          </NavLink>
+        <NavLink
+          to="/user/101"
+          className={({ isActive }) =>
+            isActive ? "active" : ""
+          }
+        >
+          User Profile
+        </NavLink>
 
-        </nav>
+      </nav>
 
-        {/* Routes */}
-        <Routes>
+      <button onClick={toggleTheme}>
+        {darkMode ? "Light Mode" : "Dark Mode"}
+      </button>
 
-          <Route path="/" element={<Home />} />
+      <hr />
 
-          <Route path="/about" element={<About />} />
+      <Routes>
 
-          {/* Nested Routes */}
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route
-              path="profile"
-              element={<h3>Dashboard Profile</h3>}
-            />
+        <Route path="/" element={<Home />} />
 
-            <Route
-              path="settings"
-              element={<h3>Dashboard Settings</h3>}
-            />
-          </Route>
+        <Route path="/about" element={<About />} />
 
-          {/* Dynamic Route */}
-          <Route
-            path="/user/:userId"
-            element={<UserProfile />}
-          />
+        <Route path="/dashboard" element={<Dashboard />} />
 
-          {/* 404 Route */}
-          <Route path="*" element={<NotFound />} />
+        <Route
+          path="/user/:userId"
+          element={<UserProfile />}
+        />
 
-        </Routes>
+        <Route path="*" element={<NotFound />} />
 
-      </div>
-    </BrowserRouter>
+      </Routes>
+
+    </div>
   );
 }
 
